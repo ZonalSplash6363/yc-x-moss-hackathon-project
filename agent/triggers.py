@@ -166,21 +166,55 @@ def check_word_recall(
     )
 
 
+# Words describing a symptom as over. Only consulted in the two tokens right
+# after a match, and only when no negator shares that window, so "the tremor
+# is not gone" still flags.
+_RESOLVED = ("gone", "resolved", "stopped", "cleared", "disappeared")
+
+
+def _phrase_token_spans(tokens: list[str], phrase: str) -> list[tuple[int, int]]:
+    """Every [start, end) token span where `phrase` occurs."""
+    want = phrase.split()
+    n = len(want)
+    return [(i, i + n) for i in range(len(tokens) - n + 1) if tokens[i:i + n] == want]
+
+
+def _mention_is_denied(tokens: list[str], start: int, end: int) -> bool:
+    """Does the patient deny this symptom, or report it as over?
+
+    Bare keyword matching flagged every denial: "I've not noticed any
+    tremor", "no stiffness" and "the tremor is gone" all fired. A patient
+    reporting they were *better* was recorded as symptomatic, and the agent
+    then asked an LLM follow-up probing a symptom they had just ruled out.
+    """
+    if any(t in _NEGATORS for t in tokens[max(0, start - 3):start]):
+        return True
+    after = tokens[end:end + 2]
+    return any(t in _RESOLVED for t in after) and not any(t in _NEGATORS for t in after)
+
+
 def check_symptom_flag(answer_text: str) -> TriggerResult:
-    """Semantic check: does this free-form answer mention a flagged symptom?
+    """Semantic check: does this free-form answer report a flagged symptom?
 
     Lightweight keyword match (word-boundary, case-insensitive) against
-    SYMPTOM_VOCABULARY. TODO(agent): upgrade path is an embedding-similarity
-    check against a small reference set of symptom sentences instead of
-    exact keywords — worth it once false negatives on paraphrased symptoms
-    (e.g. "my hands won't stop moving" for tremor) start to matter; keyword
+    SYMPTOM_VOCABULARY, skipping mentions the patient denies or describes as
+    resolved. TODO(agent): upgrade path is an embedding-similarity check
+    against a small reference set of symptom sentences instead of exact
+    keywords — worth it once false negatives on paraphrased symptoms (e.g.
+    "my hands won't stop moving" for tremor) start to matter; keyword
     matching is intentionally the cheap/fast first pass so this never adds
     retrieval-blocking latency mid-call.
+
+    Denial is judged per category, so "no tremor, but the stiffness is bad"
+    still flags stiffness. Nothing is lost when a mention is skipped: every
+    answer goes to Moss whether or not a trigger fires.
     """
+    tokens = _normalize(answer_text).split()
     hits: list[str] = []
     for category, phrases in SYMPTOM_VOCABULARY.items():
         for phrase in phrases:
-            if _phrase_pattern(phrase).search(answer_text.lower()):
+            spans = _phrase_token_spans(tokens, _normalize(phrase))
+            if any(not _mention_is_denied(tokens, s, e) for s, e in spans):
                 hits.append(f"{category}:{phrase}")
                 break  # one hit per category is enough to flag it
 
