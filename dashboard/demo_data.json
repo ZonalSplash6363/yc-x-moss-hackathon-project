@@ -1,0 +1,669 @@
+{
+  "generated_at": "2026-09-19T23:27:19.074594Z",
+  "patients": [
+    {
+      "id": 1,
+      "name": "Test Patient"
+    },
+    {
+      "id": 2,
+      "name": "Margaret Wilson"
+    }
+  ],
+  "calls": [
+    {
+      "id": 21,
+      "patient_id": 2,
+      "timestamp": "2026-09-19T16:19:21.900329Z",
+      "scored": true,
+      "features": {
+        "jitter_local": 0.014254249934408667,
+        "jitter_rap": 0.0067856526827834345,
+        "shimmer_local": 0.04473857688227977,
+        "shimmer_apq5": 0.024637972034457084,
+        "hnr": 20.412153047031246,
+        "rpde": 0.5707759370966771,
+        "dfa": 0.5871166755166368,
+        "ppe": 0.3873381921214012,
+        "speech_rate": 180.7228915662649,
+        "pause_freq": 0.20080321285140545,
+        "pause_avg_duration": 0.45499949999999956
+      },
+      "prediction": {
+        "predicted_score": 35.4,
+        "confidence_band": "high severity, unvalidated for new patients (held-out R\u00b2=-0.25)",
+        "anomaly_flag": 0
+      },
+      "flags": [
+        {
+          "question_id": "recall_check:1",
+          "reason": "answer did not match expected value: 'fall or summer'",
+          "withdrawn": false,
+          "withdrawn_because": null
+        },
+        {
+          "question_id": "open_qa:0",
+          "reason": "symptom keywords matched: ['stiffness:stiffness']",
+          "withdrawn": false,
+          "withdrawn_because": null
+        },
+        {
+          "question_id": "open_qa:0",
+          "reason": "symptom keywords matched: ['tremor:tremor']",
+          "withdrawn": false,
+          "withdrawn_because": null
+        }
+      ],
+      "segments": [
+        {
+          "name": "phonation",
+          "duration_s": 6.13
+        },
+        {
+          "name": "reading",
+          "duration_s": 10.56
+        },
+        {
+          "name": "counting",
+          "duration_s": 19.17
+        }
+      ],
+      "patient_audio_seconds": 163.24,
+      "turns": [
+        {
+          "speaker": "agent",
+          "text": "What day of the week is it today?"
+        },
+        {
+          "speaker": "patient",
+          "text": "Uh, it's a it's a Saturday."
+        },
+        {
+          "speaker": "agent",
+          "text": "What season is it right now?"
+        },
+        {
+          "speaker": "patient",
+          "text": "I believe it's awesome right now."
+        },
+        {
+          "speaker": "agent",
+          "text": "Okay, thank you for telling me."
+        },
+        {
+          "speaker": "agent",
+          "text": "That sounds great! Is it a warm or cool time of year where you are?"
+        },
+        {
+          "speaker": "patient",
+          "text": "It's quite cool right now because it's autumn."
+        },
+        {
+          "speaker": "agent",
+          "text": "I'm going to say three words, and I'll ask you for them again later: carrot, window, river. Can you repeat them back to me now?"
+        },
+        {
+          "speaker": "patient",
+          "text": "Carrot window river."
+        },
+        {
+          "speaker": "agent",
+          "text": "Take a deep breath and say 'ahh' for as long as you comfortably can."
+        },
+        {
+          "speaker": "agent",
+          "text": "Please read this sentence aloud: The old dog stretched slowly in the warm afternoon sun. A light breeze moved through the open window, carrying the smell of fresh coffee from the kitchen down the hall."
+        },
+        {
+          "speaker": "patient",
+          "text": "The old dog stretched slowly in the warm afternoon sun A light breeze moved through the open window carrying the smell of fresh coffee from the kitchen down the hall."
+        },
+        {
+          "speaker": "agent",
+          "text": "How have you been feeling since we last spoke?"
+        },
+        {
+          "speaker": "patient",
+          "text": "I've had trouble sleeping. And, uh, a bit of stiffness in my"
+        },
+        {
+          "speaker": "agent",
+          "text": "Okay, thank you for telling me."
+        },
+        {
+          "speaker": "agent",
+          "text": "Have you noticed any stiffness in your hands, or is it more in your legs or back?"
+        },
+        {
+          "speaker": "patient",
+          "text": "in my throat and a bit of a tremor while speaking."
+        },
+        {
+          "speaker": "agent",
+          "text": "Have you noticed if the tremor in your throat has gotten any better or worse when you speak?"
+        },
+        {
+          "speaker": "patient",
+          "text": "It's more it's"
+        },
+        {
+          "speaker": "agent",
+          "text": "Have you noticed any changes in your daily activities lately?"
+        },
+        {
+          "speaker": "patient",
+          "text": "The term is constant less. No. No. I've not noticed any."
+        },
+        {
+          "speaker": "agent",
+          "text": "Please count out loud from one to twenty."
+        },
+        {
+          "speaker": "patient",
+          "text": "One, two, three, three, um, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty,"
+        },
+        {
+          "speaker": "agent",
+          "text": "Earlier I asked you to remember three words. Can you tell me what they were?"
+        },
+        {
+          "speaker": "patient",
+          "text": "Carrot, sun, river."
+        },
+        {
+          "speaker": "agent",
+          "text": "That's everything for today \u2014 thanks for checking in!"
+        }
+      ],
+      "report": "Patient 2 | Call 21\nRaised during the call:\n  \u2022 Flag: answer did not match expected value: 'fall or summer'\n  \u2022 Flag: symptom keywords matched: ['stiffness:stiffness']\n  \u2022 Flag: symptom keywords matched: ['tremor:tremor']\nVoice (measured): jitter 1.43% (RAP 0.68%), shimmer 4.47% (APQ5 2.46%), HNR 20.4 dB\nNonlinear (measured): RPDE 0.571, DFA 0.587, PPE 0.387\nSpeech (measured): 200 words/min, 0.19 pauses/s, average pause 0.45s\nModel estimate (experimental): UPDRS 35.4 \u2014 high severity, unvalidated for new patients (held-out R\u00b2=-0.25).\nCompare the measured values with this patient's own previous calls; the model estimate is not a clinical measurement.\n"
+    },
+    {
+      "id": 22,
+      "patient_id": 2,
+      "timestamp": "2026-09-19T17:22:22.544290Z",
+      "scored": false,
+      "features": null,
+      "prediction": null,
+      "flags": [],
+      "segments": [],
+      "patient_audio_seconds": 0.51,
+      "turns": [
+        {
+          "speaker": "agent",
+          "text": "What day of the week is it today?"
+        }
+      ],
+      "report": "Patient 2 | Call 22\nNo voice measurements from this call: no phonation segment was recorded (patient didn't hold a vowel).\nNo UPDRS estimate is given, because there is nothing to base one on.\n"
+    },
+    {
+      "id": 23,
+      "patient_id": 2,
+      "timestamp": "2026-09-19T18:30:12.862102Z",
+      "scored": true,
+      "features": {
+        "jitter_local": 0.009640571220406539,
+        "jitter_rap": 0.0042367280507652205,
+        "shimmer_local": 0.06298014460181878,
+        "shimmer_apq5": 0.03463992897110914,
+        "hnr": 17.44633406970652,
+        "rpde": 0.6722574801189555,
+        "dfa": 0.3010648617388931,
+        "ppe": 0.5302473375956123,
+        "speech_rate": 151.84056066283472,
+        "pause_freq": 0.3834357592495827,
+        "pause_avg_duration": 0.4659994000000026
+      },
+      "prediction": {
+        "predicted_score": 38.8,
+        "confidence_band": "high severity, unvalidated for new patients (held-out R\u00b2=-0.25); input outside training range",
+        "anomaly_flag": 1
+      },
+      "flags": [
+        {
+          "question_id": "open_qa:1",
+          "reason": "symptom keywords matched: ['stiffness:stiff']",
+          "withdrawn": false,
+          "withdrawn_because": null
+        }
+      ],
+      "segments": [
+        {
+          "name": "phonation",
+          "duration_s": 10.96
+        },
+        {
+          "name": "reading",
+          "duration_s": 13.64
+        },
+        {
+          "name": "counting",
+          "duration_s": 19.43
+        }
+      ],
+      "patient_audio_seconds": 167.53,
+      "turns": [
+        {
+          "speaker": "agent",
+          "text": "What day of the week is it today?"
+        },
+        {
+          "speaker": "patient",
+          "text": "It's Saturday."
+        },
+        {
+          "speaker": "agent",
+          "text": "What season is it right now?"
+        },
+        {
+          "speaker": "patient",
+          "text": "Autumn."
+        },
+        {
+          "speaker": "agent",
+          "text": "I'm going to say three words, and I'll ask you for them again later: lemon, chair, cloud. Can you repeat them back to me now?"
+        },
+        {
+          "speaker": "patient",
+          "text": "Lemon. Yeah. Cloud."
+        },
+        {
+          "speaker": "agent",
+          "text": "Take a deep breath and say 'ahh' for as long as you comfortably can."
+        },
+        {
+          "speaker": "agent",
+          "text": "Please read this sentence aloud: The old dog stretched slowly in the warm afternoon sun. A light breeze moved through the open window, carrying the smell of fresh coffee from the kitchen down the hall."
+        },
+        {
+          "speaker": "patient",
+          "text": "The old dog searched slowly in the warm summer of the new sun. A live priest moved through the open window carrying the smell of fresh coffee from the kitchen down the hall."
+        },
+        {
+          "speaker": "agent",
+          "text": "How have you been feeling since we last spoke?"
+        },
+        {
+          "speaker": "patient",
+          "text": "I've been feeling trouble with sleeping."
+        },
+        {
+          "speaker": "agent",
+          "text": "Have you noticed any changes in your daily activities lately?"
+        },
+        {
+          "speaker": "patient",
+          "text": "I go from one Wang to two Wang's a day, but my hand can't keep up with it because it's going stiff."
+        },
+        {
+          "speaker": "agent",
+          "text": "Okay, thank you for telling me."
+        },
+        {
+          "speaker": "agent",
+          "text": "Are you finding that the stiffness in your hand is making it harder to do tasks like writing or holding things?"
+        },
+        {
+          "speaker": "patient",
+          "text": "[redacted at the patient's request]"
+        },
+        {
+          "speaker": "agent",
+          "text": "Please count out loud from one to twenty."
+        },
+        {
+          "speaker": "patient",
+          "text": "One, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty."
+        },
+        {
+          "speaker": "agent",
+          "text": "Earlier I asked you to remember three words. Can you tell me what they were?"
+        },
+        {
+          "speaker": "patient",
+          "text": "Lemon cloud chair."
+        },
+        {
+          "speaker": "agent",
+          "text": "That's everything for today \u2014 thanks for checking in!"
+        }
+      ],
+      "report": "Patient 2 | Call 23\nRaised during the call:\n  \u2022 Flag: symptom keywords matched: ['stiffness:stiff']\nVoice (measured): jitter 0.96% (RAP 0.42%), shimmer 6.30% (APQ5 3.46%), HNR 17.4 dB\nNonlinear (measured): RPDE 0.672, DFA 0.301, PPE 0.530\nSpeech (measured): 186 words/min, 0.37 pauses/s, average pause 0.47s\nModel estimate (experimental): UPDRS 38.8 \u2014 high severity, unvalidated for new patients (held-out R\u00b2=-0.25); input outside training range.\n  Note: this call's measurements fall outside the range the model was trained on, so the estimate is extrapolation.\nCompare the measured values with this patient's own previous calls; the model estimate is not a clinical measurement.\n"
+    },
+    {
+      "id": 24,
+      "patient_id": 2,
+      "timestamp": "2026-09-19T18:44:47.516163Z",
+      "scored": true,
+      "features": {
+        "jitter_local": 0.007447097751170059,
+        "jitter_rap": 0.0029747128429472493,
+        "shimmer_local": 0.04562754226929001,
+        "shimmer_apq5": 0.02776398008710119,
+        "hnr": 19.422049048090496,
+        "rpde": 0.693352772863515,
+        "dfa": 0.26885826765418447,
+        "ppe": 0.3952314081162326,
+        "speech_rate": 139.7515527950311,
+        "pause_freq": 0.46583850931677034,
+        "pause_avg_duration": 0.46499833333333623
+      },
+      "prediction": {
+        "predicted_score": 38.6,
+        "confidence_band": "high severity, unvalidated for new patients (held-out R\u00b2=-0.25); input outside training range",
+        "anomaly_flag": 1
+      },
+      "flags": [
+        {
+          "question_id": "delayed_recall:0",
+          "reason": "recalled 1 of 3 words (missed: table, penny)",
+          "withdrawn": false,
+          "withdrawn_because": null
+        },
+        {
+          "question_id": "delayed_recall:0",
+          "reason": "recalled 1 of 3 words (missed: apple, penny)",
+          "withdrawn": false,
+          "withdrawn_because": null
+        },
+        {
+          "question_id": "delayed_recall:0",
+          "reason": "recalled 0 of 3 words (missed: apple, table, penny)",
+          "withdrawn": false,
+          "withdrawn_because": null
+        }
+      ],
+      "segments": [
+        {
+          "name": "phonation",
+          "duration_s": 7.44
+        },
+        {
+          "name": "reading",
+          "duration_s": 13.48
+        },
+        {
+          "name": "counting",
+          "duration_s": 29.81
+        }
+      ],
+      "patient_audio_seconds": 213.52,
+      "turns": [
+        {
+          "speaker": "agent",
+          "text": "What day of the week is it today?"
+        },
+        {
+          "speaker": "patient",
+          "text": "It's Saturday. But no recording? No. I wanna Saturday."
+        },
+        {
+          "speaker": "agent",
+          "text": "What season is it right now?"
+        },
+        {
+          "speaker": "patient",
+          "text": "It's autumn. Right. Mhmm. Just looking at what it is."
+        },
+        {
+          "speaker": "agent",
+          "text": "I'm going to say three words, and I'll ask you for them again later: apple, table, penny. Can you repeat them back to me now?"
+        },
+        {
+          "speaker": "patient",
+          "text": "Is it right now? Love that. Apple table penny."
+        },
+        {
+          "speaker": "agent",
+          "text": "Take a deep breath and say 'ahh' for as long as you comfortably can."
+        },
+        {
+          "speaker": "agent",
+          "text": "Please read this sentence aloud: The old dog stretched slowly in the warm afternoon sun. A light breeze moved through the open window, carrying the smell of fresh coffee from the kitchen down the hall."
+        },
+        {
+          "speaker": "patient",
+          "text": "The old dog stretched slowly in the warm afternoon sun. A light breeze moved through the open window. Carrying the smell of fresh coffee from the kitchen down the hall."
+        },
+        {
+          "speaker": "agent",
+          "text": "How have you been feeling since we last spoke?"
+        },
+        {
+          "speaker": "patient",
+          "text": "I've been having trouble sleeping."
+        },
+        {
+          "speaker": "agent",
+          "text": "Have you noticed any changes in your daily activities lately?"
+        },
+        {
+          "speaker": "patient",
+          "text": "Yes. Um, I can't walk that far down the stairs. I have to roll down the stairs instead."
+        },
+        {
+          "speaker": "agent",
+          "text": "Please count out loud from one to twenty."
+        },
+        {
+          "speaker": "patient",
+          "text": "I think there's always Oh, god. One, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen. Sixteen, seventeen, eighteen, nineteen, twenty. Why are you singing it? Yeah. Because you have to Yeah. I know. But I go on. Yeah."
+        },
+        {
+          "speaker": "agent",
+          "text": "Earlier I asked you to remember three words. Can you tell me what they were?"
+        },
+        {
+          "speaker": "patient",
+          "text": "Can you feel it? Oh, [redacted] me, bro. Apple chair car. Oh, god. I have no money clue. I'm not even got a pocket. Yeah. I don't [redacted]"
+        },
+        {
+          "speaker": "agent",
+          "text": "Okay, thank you for telling me."
+        },
+        {
+          "speaker": "agent",
+          "text": "Can you remember what the last word we talked about was related to\u2014a type of furniture or something else?"
+        },
+        {
+          "speaker": "patient",
+          "text": "Table. Chair."
+        },
+        {
+          "speaker": "agent",
+          "text": "What do you usually think of when you hear the word \"apple\"?"
+        },
+        {
+          "speaker": "patient",
+          "text": "Worms."
+        },
+        {
+          "speaker": "agent",
+          "text": "That's everything for today \u2014 thanks for checking in!"
+        }
+      ],
+      "report": "Patient 2 | Call 24\nRaised during the call:\n  \u2022 Flag: recalled 1 of 3 words (missed: table, penny)\n  \u2022 Flag: recalled 1 of 3 words (missed: apple, penny)\n  \u2022 Flag: recalled 0 of 3 words (missed: apple, table, penny)\nVoice (measured): jitter 0.74% (RAP 0.30%), shimmer 4.56% (APQ5 2.78%), HNR 19.4 dB\nNonlinear (measured): RPDE 0.693, DFA 0.269, PPE 0.395\nSpeech (measured): 140 words/min, 0.47 pauses/s, average pause 0.46s\nModel estimate (experimental): UPDRS 38.6 \u2014 high severity, unvalidated for new patients (held-out R\u00b2=-0.25); input outside training range.\n  Note: this call's measurements fall outside the range the model was trained on, so the estimate is extrapolation.\nCompare the measured values with this patient's own previous calls; the model estimate is not a clinical measurement.\n"
+    },
+    {
+      "id": 25,
+      "patient_id": 2,
+      "timestamp": "2026-09-19T21:59:30.930889Z",
+      "scored": true,
+      "features": {
+        "jitter_local": 0.007369818097173279,
+        "jitter_rap": 0.0029517115697823676,
+        "shimmer_local": 0.06014672254612893,
+        "shimmer_apq5": 0.038651133618461495,
+        "hnr": 17.686890646574348,
+        "rpde": 0.5932268701959627,
+        "dfa": 0.3511783777039924,
+        "ppe": 0.2833826391363063,
+        "speech_rate": 165.59345243489068,
+        "pause_freq": 0.3679854498553126,
+        "pause_avg_duration": 0.3125
+      },
+      "prediction": {
+        "predicted_score": 33.2,
+        "confidence_band": "high severity, unvalidated for new patients (held-out R\u00b2=-0.25); input outside training range",
+        "anomaly_flag": 1
+      },
+      "flags": [
+        {
+          "question_id": "recall_check:1",
+          "reason": "answer did not match expected value: 'fall or summer'",
+          "withdrawn": false,
+          "withdrawn_because": null
+        },
+        {
+          "question_id": "recall_check:1",
+          "reason": "answer did not match expected value: 'fall or summer'",
+          "withdrawn": false,
+          "withdrawn_because": null
+        },
+        {
+          "question_id": "recall_check:1",
+          "reason": "answer did not match expected value: 'fall or summer'",
+          "withdrawn": false,
+          "withdrawn_because": null
+        },
+        {
+          "question_id": "open_qa:0",
+          "reason": "symptom keywords matched: ['stiffness:stiffness']",
+          "withdrawn": false,
+          "withdrawn_because": null
+        },
+        {
+          "question_id": "delayed_recall:0",
+          "reason": "recalled 1 of 3 words (missed: carrot, window)",
+          "withdrawn": true,
+          "withdrawn_because": "answered correctly on follow-up: 'Carrot.'"
+        }
+      ],
+      "segments": [
+        {
+          "name": "phonation",
+          "duration_s": 9.15
+        },
+        {
+          "name": "reading",
+          "duration_s": 11.47
+        },
+        {
+          "name": "counting",
+          "duration_s": 18.81
+        }
+      ],
+      "patient_audio_seconds": 185.2,
+      "turns": [
+        {
+          "speaker": "agent",
+          "text": "What day of the week is it today?"
+        },
+        {
+          "speaker": "patient",
+          "text": "Today is Saturday."
+        },
+        {
+          "speaker": "agent",
+          "text": "What season is it right now?"
+        },
+        {
+          "speaker": "patient",
+          "text": "Right now, it is awesome."
+        },
+        {
+          "speaker": "agent",
+          "text": "Okay, thank you for telling me."
+        },
+        {
+          "speaker": "agent",
+          "text": "That sounds great! Are you enjoying the beautiful colors of the leaves?"
+        },
+        {
+          "speaker": "patient",
+          "text": "Yes."
+        },
+        {
+          "speaker": "agent",
+          "text": "Could you tell me if the weather outside feels like it's cooling down or warming up?"
+        },
+        {
+          "speaker": "patient",
+          "text": "It feels like it's warming up. These are standard orientation questions."
+        },
+        {
+          "speaker": "agent",
+          "text": "I'm going to say three words, and I'll ask you for them again later: carrot, window, river. Can you repeat them back to me now?"
+        },
+        {
+          "speaker": "patient",
+          "text": "Carrot. Window river."
+        },
+        {
+          "speaker": "agent",
+          "text": "Take a deep breath and say 'ahh' for as long as you comfortably can."
+        },
+        {
+          "speaker": "agent",
+          "text": "Please read this sentence aloud: The old dog stretched slowly in the warm afternoon sun. A light breeze moved through the open window, carrying the smell of fresh coffee from the kitchen down the hall."
+        },
+        {
+          "speaker": "patient",
+          "text": "The old dog stretched slowly in the warm afternoon sun. A light breeze moved through the open window carrying the smell of fresh coffee from the kitchen down the hall."
+        },
+        {
+          "speaker": "agent",
+          "text": "How have you been feeling since we last spoke?"
+        },
+        {
+          "speaker": "patient",
+          "text": "I have had some stiffness in my hands this week."
+        },
+        {
+          "speaker": "agent",
+          "text": "Has the stiffness in your hands been affecting your daily activities or tasks at all?"
+        },
+        {
+          "speaker": "patient",
+          "text": "It's has affected my ability to write. I am taking making it harder to write."
+        },
+        {
+          "speaker": "agent",
+          "text": "Have you noticed any changes in your daily activities lately?"
+        },
+        {
+          "speaker": "patient",
+          "text": "Just in writing."
+        },
+        {
+          "speaker": "agent",
+          "text": "Please count out loud from one to twenty."
+        },
+        {
+          "speaker": "patient",
+          "text": "One, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty."
+        },
+        {
+          "speaker": "agent",
+          "text": "Earlier I asked you to remember three words. Can you tell me what they were?"
+        },
+        {
+          "speaker": "patient",
+          "text": "River."
+        },
+        {
+          "speaker": "agent",
+          "text": "Can you think of something that grows in the ground and is often orange?"
+        },
+        {
+          "speaker": "patient",
+          "text": "Carrot."
+        },
+        {
+          "speaker": "agent",
+          "text": "That's everything for today \u2014 thanks for checking in!"
+        }
+      ],
+      "report": "Patient 2 | Call 25\nRaised during the call:\n  \u2022 Flag: answer did not match expected value: 'fall or summer'\n  \u2022 Flag: answer did not match expected value: 'fall or summer'\n  \u2022 Flag: answer did not match expected value: 'fall or summer'\n  \u2022 Flag: symptom keywords matched: ['stiffness:stiffness']\nVoice (measured): jitter 0.74% (RAP 0.30%), shimmer 6.01% (APQ5 3.87%), HNR 17.7 dB\nNonlinear (measured): RPDE 0.593, DFA 0.351, PPE 0.283\nSpeech (measured): 166 words/min, 0.37 pauses/s, average pause 0.31s\nModel estimate (experimental): UPDRS 33.2 \u2014 high severity, unvalidated for new patients (held-out R\u00b2=-0.25); input outside training range.\n  Note: this call's measurements fall outside the range the model was trained on, so the estimate is extrapolation.\nCompare the measured values with this patient's own previous calls; the model estimate is not a clinical measurement.\n"
+    }
+  ]
+}

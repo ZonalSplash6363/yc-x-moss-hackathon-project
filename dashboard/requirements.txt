@@ -1,0 +1,13 @@
+# Dependencies for the clinician dashboard ONLY.
+#
+# Kept separate from the repo-root requirements.txt on purpose. That file
+# installs the voice agent's stack — livekit-agents, moss, praat-parselmouth,
+# librosa, av — which is a large native build the dashboard never imports, and
+# which a hosted Streamlit runner may not manage to compile at all. The
+# dashboard reads a committed JSON snapshot, so it needs nothing else.
+#
+# Point Streamlit Community Cloud at dashboard/app.py; if it installs the root
+# requirements.txt instead of this one, set this path in the app's advanced
+# settings.
+streamlit>=1.40
+pandas>=2.0

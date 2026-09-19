@@ -25,5 +25,9 @@ webrtcvad                # Voice activity detection
 # --- Zone: signup (patient onboarding) -----------------------------------
 Flask>=3.0
 
+# --- Zone: dashboard (clinician view) ------------------------------------
+streamlit                # reads dashboard/demo_data.json, not the live DB —
+                         # see dashboard/build_snapshot.py for why
+
 # --- shared ---------------------------------------------------------------
 python-dotenv
