@@ -13,11 +13,12 @@ from __future__ import annotations
 import json
 import os
 import re
+import secrets
 import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
 
-from flask import Flask, jsonify, request, send_from_directory
+from flask import Flask, Response, jsonify, request, send_from_directory
 
 BASE_DIR = Path(__file__).resolve().parent
 REPO_ROOT = BASE_DIR.parent
@@ -33,6 +34,61 @@ EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 TIME_RE = re.compile(r"^([01]\d|2[0-3]):([0-5]\d)$")
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
+
+
+# --- exposure guard ---------------------------------------------------------
+#
+# This app hands out patient names and timezones, mints LiveKit tokens that
+# cost real money to redeem, and writes to the database — none of it behind a
+# login. That is acceptable on localhost and reckless through a tunnel, so
+# anything arriving from off this machine must present DEMO_PASSWORD.
+#
+# The check cannot rely on remote_addr: ngrok and cloudflared connect to
+# 127.0.0.1, so every tunnelled request looks local. The forwarding headers
+# they add are what actually give a remote caller away.
+DEMO_USER = os.environ.get("DEMO_USER", "demo")
+DEMO_PASSWORD = os.environ.get("DEMO_PASSWORD")
+_LOOPBACK = {"127.0.0.1", "::1", "localhost"}
+
+
+def _is_remote(req) -> bool:
+    if req.headers.get("X-Forwarded-For") or req.headers.get("X-Forwarded-Host"):
+        return True
+    return (req.remote_addr or "") not in _LOOPBACK
+
+
+def _unauthorized() -> Response:
+    return Response(
+        "Authentication required.\n",
+        401,
+        {"WWW-Authenticate": 'Basic realm="Voice check-in demo"'},
+    )
+
+
+@app.before_request
+def _guard_remote_access():
+    """Password-gate anything that didn't come from this machine."""
+    if not _is_remote(request):
+        return None  # ordinary local use is unchanged
+
+    if not DEMO_PASSWORD:
+        # Fail closed. Exposing the app without setting a password should do
+        # nothing at all, rather than quietly serving patient data.
+        return Response(
+            "This app is not configured for remote access. Set DEMO_PASSWORD "
+            "before exposing it through a tunnel.\n",
+            503,
+        )
+
+    auth = request.authorization
+    if not auth or auth.type != "basic":
+        return _unauthorized()
+    # compare_digest on both halves: a plain == leaks length/prefix by timing.
+    user_ok = secrets.compare_digest(auth.username or "", DEMO_USER)
+    pass_ok = secrets.compare_digest(auth.password or "", DEMO_PASSWORD)
+    if not (user_ok and pass_ok):
+        return _unauthorized()
+    return None
 
 
 def get_db() -> sqlite3.Connection:
@@ -275,4 +331,9 @@ def signup():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5050)
+    # debug=True serves the Werkzeug debugger, which is an interactive Python
+    # console for anyone who can reach an error page — remote code execution
+    # the moment this is tunnelled. Off unless explicitly requested, and never
+    # turn it on while the app is exposed.
+    debug = os.environ.get("FLASK_DEBUG", "").strip().lower() in {"1", "true", "yes", "on"}
+    app.run(debug=debug, port=5050)
