@@ -138,10 +138,17 @@ def _word_was_said(answer: str, word: str) -> bool:
     return False
 
 
+def recalled_words(answer_text: str, words: Iterable[str]) -> list[str]:
+    """Which of `words` this one answer brought back."""
+    answer = _normalize(answer_text)
+    return [w for w in words if _word_was_said(answer, _normalize(w))]
+
+
 def check_word_recall(
     answer_text: str,
     words: Iterable[str],
     min_required: int = 2,
+    already_recalled: Iterable[str] = (),
 ) -> TriggerResult:
     """Delayed recall: how many of the words said earlier come back?
 
@@ -151,10 +158,16 @@ def check_word_recall(
     Fires when fewer than `min_required` are recalled. One miss out of three
     is common in healthy older adults, so flagging every miss would be noise;
     the count is reported either way for tracking over time.
+
+    `already_recalled` carries the words produced on earlier attempts at this
+    same question, because the agent asks again after a miss. Scoring each
+    attempt alone recorded "recalled 0 of 3" for a patient who had in fact
+    produced two of the three across the exchange: the final attempt — cued,
+    partial, and the weakest of the three — became the whole record.
     """
     words = list(words)
-    answer = _normalize(answer_text)
-    recalled = [w for w in words if _word_was_said(answer, _normalize(w))]
+    found = set(already_recalled) | set(recalled_words(answer_text, words))
+    recalled = [w for w in words if w in found]  # keep the caller's order
     summary = f"recalled {len(recalled)} of {len(words)} words"
     if len(recalled) >= min_required:
         return TriggerResult(fired=False, reason=summary)

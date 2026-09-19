@@ -46,7 +46,13 @@ from agent.call_script import (
     patient_now,
     recall_words_for_call,
 )
-from agent.triggers import TriggerResult, check_symptom_flag, check_word_recall, check_wrong_answer
+from agent.triggers import (
+    TriggerResult,
+    check_symptom_flag,
+    check_word_recall,
+    check_wrong_answer,
+    recalled_words,
+)
 from db.contracts import MossQARecord
 from agent.moss_worker import MossBridge
 from db.moss_client import push_patient_session
@@ -150,6 +156,11 @@ class TurnContext:
     # answer the follow-up), which means a patient who keeps tripping the
     # check would loop on one question forever. See MAX_FOLLOWUPS_PER_QUESTION.
     followup_counts: dict[str, int] = field(default_factory=dict)
+    # Every word the patient has recalled across all attempts at the delayed
+    # recall question. The agent re-asks after a miss, and scoring each attempt
+    # in isolation recorded "recalled 0 of 3" for someone who had produced two
+    # of the three words over the course of the exchange.
+    recalled_so_far: set[str] = field(default_factory=set)
     # This call's answers so far. Moss holds previous calls; these are handed
     # to the LLM directly so a follow-up can also reference earlier in *this*
     # call without waiting for (or re-loading) the index.
@@ -265,7 +276,13 @@ async def handle_turn(
             record.extra["words_repeated"] = repeated.reason
             logger.info("%s: registration — %s", record.question_id, repeated.reason)
     elif script.state == CallState.DELAYED_RECALL:
-        trigger = check_word_recall(answer_text, script.recall_words)
+        # Credit words from earlier attempts at this same question: the agent
+        # re-asks after a miss, and a cued second answer ("Table. Chair.")
+        # must not erase what the first one already produced ("Apple ...").
+        ctx.recalled_so_far.update(recalled_words(answer_text, script.recall_words))
+        trigger = check_word_recall(
+            answer_text, script.recall_words, already_recalled=ctx.recalled_so_far
+        )
         record.extra["delayed_recall"] = trigger.reason
         logger.info("%s: %s", record.question_id, trigger.reason)
     elif script.state == CallState.OPEN_QA:
@@ -1250,13 +1267,20 @@ async def entrypoint(ctx) -> None:
                 script, turn_ctx, utterance.text, speak=speak, word_timestamps=utterance.words
             )
             if outcome.trigger.fired and outcome.trigger.reason:
+                if qid.startswith("delayed_recall:"):
+                    # Each attempt's flag is superseded by the next, which now
+                    # counts cumulatively. Keeping all of them left the record
+                    # ending on the lowest and least true of the three.
+                    recorder.resolve_flags(qid, f"superseded by: {outcome.trigger.reason}")
                 recorder.log_flag(qid, outcome.trigger.reason)
-            elif qid.startswith("recall_check:"):
+            elif qid.startswith(("recall_check:", "delayed_recall:")):
                 # Same qid as the answer that flagged: the script only advances
-                # once an orientation answer passes, so reaching here means the
-                # clarifier was answered correctly and the first answer was
-                # misheard, not wrong. Deepgram rendered "autumn" as "awesome"
-                # and left a healthy patient flagged as disoriented.
+                # once the question passes, so reaching here means a later
+                # attempt succeeded and the standing flag is wrong. Orientation:
+                # Deepgram rendered "autumn" as "awesome", leaving a healthy
+                # patient flagged as disoriented until the clarifier put it
+                # right. Delayed recall: the words came back over successive
+                # attempts, so the cumulative count reached the threshold.
                 withdrawn = recorder.resolve_flags(
                     qid, f"answered correctly on follow-up: {utterance.text!r}"
                 )
