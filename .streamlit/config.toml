@@ -1,0 +1,20 @@
+# Clinical light theme for the dashboard.
+#
+# Streamlit's defaults read as a data-science notebook: saturated accent,
+# rounded cards, dark chrome. Clinical software looks the opposite — white
+# ground, restrained slate text, one muted accent, and colour reserved for
+# results that are actually abnormal.
+
+[theme]
+base = "light"
+primaryColor = "#1B6B8A"              # muted clinical teal, used sparingly
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F4F6F8"  # panel fill, near-white
+textColor = "#1A2530"                 # near-black slate, not pure black
+font = "sans serif"
+
+[client]
+toolbarMode = "minimal"
+
+[server]
+headless = true

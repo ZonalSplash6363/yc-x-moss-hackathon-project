@@ -43,14 +43,41 @@ def _redact(text: str) -> str:
     return _PROFANITY.sub("[redacted]", text)
 
 
+def _patients(conn: sqlite3.Connection) -> list[dict]:
+    """Patients with the enrolment details the dashboard header shows.
+
+    The signup zone keeps timezone, schedule and caregiver in its own table,
+    so they are joined in here rather than looked up at render time — the
+    deployed dashboard has no database to look them up in.
+    """
+    out = []
+    for row in conn.execute("SELECT id, name, created_at FROM patients ORDER BY id"):
+        details = conn.execute(
+            "SELECT timezone, call_frequency, preferred_call_times, caregiver_name "
+            "FROM patient_signup_details WHERE patient_id = ? ORDER BY id DESC LIMIT 1",
+            (row["id"],),
+        ).fetchone()
+        times = []
+        if details and details["preferred_call_times"]:
+            try:
+                times = json.loads(details["preferred_call_times"])
+            except (ValueError, TypeError):
+                times = []
+        out.append({
+            "id": row["id"],
+            "name": row["name"],
+            "enrolled": row["created_at"],
+            "timezone": details["timezone"] if details else None,
+            "call_frequency": details["call_frequency"] if details else None,
+            "preferred_call_times": times,
+            "caregiver_name": details["caregiver_name"] if details else None,
+        })
+    return out
+
+
 def build(exclude: set[int], redact: bool) -> dict:
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
-
-    patients = [
-        {"id": r["id"], "name": r["name"]}
-        for r in conn.execute("SELECT id, name FROM patients ORDER BY id")
-    ]
 
     calls = []
     for row in conn.execute("SELECT id, patient_id, timestamp FROM calls ORDER BY id"):
@@ -115,6 +142,7 @@ def build(exclude: set[int], redact: bool) -> dict:
             "report": report,
         })
 
+    patients = _patients(conn)
     conn.close()
     return {
         "generated_at": datetime.datetime.utcnow().isoformat() + "Z",

@@ -1,13 +1,25 @@
 {
-  "generated_at": "2026-09-19T23:27:19.074594Z",
+  "generated_at": "2026-09-20T08:28:02.997144Z",
   "patients": [
     {
       "id": 1,
-      "name": "Test Patient"
+      "name": "Test Patient",
+      "enrolled": "2026-09-12T02:28:56.936Z",
+      "timezone": null,
+      "call_frequency": null,
+      "preferred_call_times": [],
+      "caregiver_name": null
     },
     {
       "id": 2,
-      "name": "Margaret Wilson"
+      "name": "Margaret Wilson",
+      "enrolled": "2026-09-12T02:46:15.338Z",
+      "timezone": "America/New_York",
+      "call_frequency": "daily",
+      "preferred_call_times": [
+        "09:30"
+      ],
+      "caregiver_name": "David Wilson"
     }
   ],
   "calls": [
