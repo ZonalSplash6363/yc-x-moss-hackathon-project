@@ -37,13 +37,20 @@ st.set_page_config(page_title="Voice Check-in — Clinician View",
 
 
 @st.cache_data
-def load_data() -> dict:
+def load_data(snapshot_mtime: float) -> dict:
+    """The parsed snapshot, keyed on the file's modification time.
+
+    The mtime argument is the point: a no-argument cache would hold the first
+    read for the life of the process, so regenerating the snapshot — after a
+    new call, say — would leave the page showing stale data until it was
+    restarted.
+    """
     if not DATA_PATH.exists():
         return {"patients": [], "calls": [], "generated_at": None}
     return json.loads(DATA_PATH.read_text())
 
 
-data = load_data()
+data = load_data(DATA_PATH.stat().st_mtime if DATA_PATH.exists() else 0.0)
 if not data["calls"]:
     st.error("No snapshot found. Run `python -m dashboard.build_snapshot` first.")
     st.stop()
